@@ -32,7 +32,7 @@ namespace MatrixLib
 	}
 
 	/* Get element i, j */
-	int Matrix::element(int i, int j)
+	int Matrix::element(int i, int j) const
 	{
 		return this->data[i][j];
 	}
@@ -44,7 +44,7 @@ namespace MatrixLib
 	}
 
 	/* Get size of the matrix */
-	vector<int> Matrix::getSize()
+	vector<int> Matrix::getSize() const
 	{
 		vector<int> size(2);
 		size[0] = this->data.size();
@@ -53,7 +53,7 @@ namespace MatrixLib
 	}
 
 	/* Get elements on the main diagonal of the matrix */
-	vector<int> Matrix::diag()
+	vector<int> Matrix::diag() const
 	{
 		int length = min(getSize()[0], getSize()[1]);
 		vector<int> diag(length);
@@ -75,7 +75,7 @@ namespace MatrixLib
 	}
 
 	/* Return row i of the matrix */
-	vector<int> Matrix::row(int i)
+	vector<int> Matrix::row(int i) const
 	{
 		return this->data[i];
 	}
@@ -87,7 +87,7 @@ namespace MatrixLib
 	}
 
 	/* Return column j of the matrix */
-	vector<int> Matrix::col(int j)
+	vector<int> Matrix::col(int j) const
 	{
 		vector<int> arr;
 		for (int i = 0; i < getSize()[0]; ++i)
@@ -111,62 +111,62 @@ namespace MatrixLib
 	 *********************************************************/
 
 	/* Overload operator + */
-	Matrix operator+(Matrix& A, Matrix B)
+	Matrix Matrix::operator+(const Matrix& A) const
 	{
 		/* Handle size exception */
-		if (A.getSize()[0] != B.getSize()[0] || A.getSize()[1] != B.getSize()[1])
+		if (A.getSize()[0] != getSize()[0] || A.getSize()[1] != getSize()[1])
 			throw exception("Dimension mismatch");
 		/* TODO: handle overflow exception */
 
 		Matrix out;
 		for (int i = 0; i < A.getSize()[0]; ++i){
 			for (int j = 0; j < A.getSize()[1]; ++j){
-				out.element(i, j, A.element(i, j) + B.element(i, j));
+				out.element(i, j, A.element(i, j) + this->element(i, j));
 			}
 		}
 		return out;
 	}
 
 	/* Overload operator - */
-	Matrix operator-(Matrix& A, Matrix B)
+	Matrix Matrix::operator-(const Matrix& A) const
 	{
 		/* Handle size exception */
-		if (A.getSize()[0] != B.getSize()[0] || A.getSize()[1] != B.getSize()[1])
+		if (A.getSize()[0] != getSize()[0] || A.getSize()[1] != getSize()[1])
 			throw exception("Dimension mismatch");
 		/* TODO: handle overflow exception */
 
 		Matrix out(A.getSize()[0], A.getSize()[1]);
 		for (int i = 0; i < A.getSize()[0]; ++i){
 			for (int j = 0; j < A.getSize()[1]; ++j){
-				out.element(i, j, A.element(i, j) - B.element(i, j));
+				out.element(i, j, A.element(i, j) - this->element(i, j));
 			}
 		}
 		return out;
 	}
 
 	/* Overload operator * for scalar */
-	Matrix operator*(Matrix& A, int c)
+	Matrix Matrix::operator*(const int c) const
 	{
 		/* TODO: handle overflow exception */
 
 		Matrix out;
-		for (int i = 0; i < A.getSize()[0]; ++i){
-			for (int j = 0; j < A.getSize()[1]; ++j){
-				out.element(i, j, c * A.element(i, j));
+		for (int i = 0; i < getSize()[0]; ++i){
+			for (int j = 0; j < getSize()[1]; ++j){
+				out.element(i, j, c * this->element(i, j));
 			}
 		}
 		return out;
 	}
 
-	/* Overload operator * for scalar */
-	Matrix operator/(Matrix& A, int c)
+	/* Overload operator / for scalar */
+	Matrix Matrix::operator/(const int c) const
 	{
 		/* TODO: handle overflow exception */
 
 		Matrix out;
-		for (int i = 0; i < A.getSize()[0]; ++i){
-			for (int j = 0; j < A.getSize()[1]; ++j){
-				out.element(i, j, A.element(i, j) / c);
+		for (int i = 0; i < getSize()[0]; ++i){
+			for (int j = 0; j < getSize()[1]; ++j){
+				out.element(i, j, this->element(i, j) / c);
 			}
 		}
 		return out;
@@ -187,7 +187,7 @@ namespace MatrixLib
 	}
 
 	/* Get the determinant of a 2 x 2 matrix */
-	int Matrix::det()
+	int Matrix::det() const
 	{
 		/* Handle size exception */
 		if (getSize()[0] != getSize()[1])
@@ -197,7 +197,7 @@ namespace MatrixLib
 	}
 
 	/* Inverse of a 2 x 2 matrix */
-	Matrix Matrix::inv()
+	Matrix Matrix::inv() const
 	{
 		/* Handle size exception */
 		if (getSize()[0] != getSize()[1])

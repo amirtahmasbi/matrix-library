@@ -29,22 +29,28 @@ namespace MatrixLib
 		/* Destructor */
 		~Matrix();
 
-		/* Methods */
-		vector<int> getSize();
+		/* Operator overloading */
+		Matrix operator+(const Matrix&) const;
+		Matrix operator-(const Matrix&) const;
+		Matrix operator*(const int) const;
+		Matrix operator/(const int) const;
 
-		int element(int, int);
+		/* Methods */
+		vector<int> getSize() const;
+
+		int element(int, int) const;
 		void element(int, int, int);
 
-		int det();
-		Matrix inv();
+		int det() const;
+		Matrix inv() const;
 
-		vector<int> diag();
+		vector<int> diag() const;
 		void diag(vector<int>);
 
-		vector<int> row(int);
+		vector<int> row(int) const;
 		void row(vector<int>, int);
 
-		vector<int> col(int);
+		vector<int> col(int) const;
 		void col(vector<int>, int);
 
 	private:
